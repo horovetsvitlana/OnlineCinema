@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCinema.API", "OnlineCinema.API\OnlineCinema.API.csproj", "{7D29BFAF-B84C-4DFC-B2A8-51E45CDD48DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D29BFAF-B84C-4DFC-B2A8-51E45CDD48DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D29BFAF-B84C-4DFC-B2A8-51E45CDD48DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D29BFAF-B84C-4DFC-B2A8-51E45CDD48DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D29BFAF-B84C-4DFC-B2A8-51E45CDD48DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {250F1BF6-09A6-4FD9-AF32-7313910C7B7D}
+	EndGlobalSection
+EndGlobal

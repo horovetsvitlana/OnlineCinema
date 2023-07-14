@@ -5,6 +5,14 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCinema.API", "OnlineCinema.API\OnlineCinema.API.csproj", "{7D29BFAF-B84C-4DFC-B2A8-51E45CDD48DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCinema.DataLayer", "OnlineCinema.DataLayer\OnlineCinema.DataLayer.csproj", "{66FAC192-1F18-414C-BFE3-FF3C27CA7051}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCinema.Repositories", "OnlineCinema.Repositories\OnlineCinema.Repositories.csproj", "{74AF6F13-3DC7-41A3-AF87-873B29AF2A75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCinema.Services", "OnlineCinema.Services\OnlineCinema.Services.csproj", "{64BDFFEE-5C89-418F-88ED-7649A0FEDF56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCinema.Shared", "OnlineCinema.Shared\OnlineCinema.Shared.csproj", "{F4714AD5-CA3C-4141-AE38-788412CBAE87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +23,22 @@ Global
 		{7D29BFAF-B84C-4DFC-B2A8-51E45CDD48DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D29BFAF-B84C-4DFC-B2A8-51E45CDD48DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D29BFAF-B84C-4DFC-B2A8-51E45CDD48DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66FAC192-1F18-414C-BFE3-FF3C27CA7051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66FAC192-1F18-414C-BFE3-FF3C27CA7051}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66FAC192-1F18-414C-BFE3-FF3C27CA7051}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66FAC192-1F18-414C-BFE3-FF3C27CA7051}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74AF6F13-3DC7-41A3-AF87-873B29AF2A75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74AF6F13-3DC7-41A3-AF87-873B29AF2A75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74AF6F13-3DC7-41A3-AF87-873B29AF2A75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74AF6F13-3DC7-41A3-AF87-873B29AF2A75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64BDFFEE-5C89-418F-88ED-7649A0FEDF56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64BDFFEE-5C89-418F-88ED-7649A0FEDF56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64BDFFEE-5C89-418F-88ED-7649A0FEDF56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64BDFFEE-5C89-418F-88ED-7649A0FEDF56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4714AD5-CA3C-4141-AE38-788412CBAE87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4714AD5-CA3C-4141-AE38-788412CBAE87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4714AD5-CA3C-4141-AE38-788412CBAE87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4714AD5-CA3C-4141-AE38-788412CBAE87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

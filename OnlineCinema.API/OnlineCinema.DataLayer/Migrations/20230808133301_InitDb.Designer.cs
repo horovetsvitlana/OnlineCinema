@@ -12,8 +12,8 @@ using OnlineCinema.DataLayer;
 namespace OnlineCinema.DataLayer.Migrations
 {
     [DbContext(typeof(CinemaDBContext))]
-    [Migration("20230719185240_InitDB")]
-    partial class InitDB
+    [Migration("20230808133301_InitDb")]
+    partial class InitDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,16 +54,16 @@ namespace OnlineCinema.DataLayer.Migrations
                     b.Property<int>("DateOfBirth")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("MonthOfBirth")
                         .HasColumnType("int");
@@ -73,8 +73,17 @@ namespace OnlineCinema.DataLayer.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("YearOfBirth")
                         .HasColumnType("int");

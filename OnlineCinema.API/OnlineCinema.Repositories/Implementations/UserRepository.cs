@@ -3,6 +3,7 @@ using OnlineCinema.DataLayer;
 using OnlineCinema.DataLayer.Model;
 using OnlineCinema.Repositories.Interfaces;
 using OnlineCinema.Repository.Implementation;
+using System.Linq;
 
 namespace OnlineCinema.Repositories.Implementations
 {
@@ -13,7 +14,7 @@ namespace OnlineCinema.Repositories.Implementations
         {
             _dbContext = dbContext;
         }
-        public async Task<List<User>> GetUserWithRoleAsync (List<int> Ids)
+        public async Task<List<User>> GetUserWithRoleAsync(List<int> Ids)
         {
             var query = _dbContext.Users.Where(x => Ids.Contains(x.Id)).Include(x => x.Role);
             return await query.AsNoTracking().ToListAsync();

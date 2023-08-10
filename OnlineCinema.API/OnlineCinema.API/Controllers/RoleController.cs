@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineCinema.DataLayer;
 using OnlineCinema.DataLayer.Model;
 using OnlineCinema.Services.Interfaces;
+using OnlineCinema.Shared.RequestModels;
 using OnlineCinema.Shared.ResponseModels;
 
 namespace OnlineCinema.API.Controllers
@@ -10,10 +12,12 @@ namespace OnlineCinema.API.Controllers
     [Route("[controller]")]
     public class RoleController : ControllerBase
     {
+        private CinemaDBContext _dbContext;
         private IRoleService _roleService;
-        public RoleController(IRoleService roleService)
+        public RoleController(IRoleService roleService, CinemaDBContext dBContext)
         {
             _roleService = roleService;
+            _dbContext = dBContext;
         }
         [HttpGet]
         public async Task<ActionResult<string>> Get(int Id)
@@ -30,29 +34,23 @@ namespace OnlineCinema.API.Controllers
 
         }
         [Authorize]
-        [HttpPost("GetItemsByIds")]
+        [HttpGet("GetItemsByIds")]
         public async Task<List<RoleResponse>> GetItemsByIds(List<int> Ids)
         {
             return await _roleService.GetRolesAsync(Ids);
 
         }
-    }
-    //[ApiController]
-    //[Route("api/[controller]")]
-    //public class RoleController: Controller
-    //{
-    //    [Authorize]
-    //    [Route("getlogin")]
-    //    public IActionResult GetLogin()
-    //    {
-    //        return Ok($"Your Login: {User.Identity.Name}");
-    //    }
 
-    //    [Authorize(Roles = "admin")]
-    //    [Route("getrole")]
-    //    public IActionResult GetRole()
-    //    {
-    //        return Ok("Your role is administrator");
-    //    }
-    //}
+        [HttpPost]
+        public async Task<ActionResult<string>> AddAsync(RoleRequest roleRequest)
+        {
+            await _dbContext.Roles.AddAsync(new Role
+            {
+                Id = roleRequest.Id,
+                RoleName = roleRequest.RoleName
+            });
+            await _dbContext.SaveChangesAsync();
+            return Ok();
+        }
+    }
 }

@@ -1,8 +1,8 @@
-﻿using OnlineCinema.Services.Implementations;
+﻿using OnlineCinema.Repositories.Implementations;
+using OnlineCinema.Repositories.Interfaces;
+using OnlineCinema.Services.Implementations;
 using OnlineCinema.Services.Interfaces;
 using OnlineCinema.Shared.AutoMapper;
-using OnlineCinema.Repositories.Implementations;
-using OnlineCinema.Repositories.Interfaces;
 
 namespace OnlineCinema.API.DI
 {

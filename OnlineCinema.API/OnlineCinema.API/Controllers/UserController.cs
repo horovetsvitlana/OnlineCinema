@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OnlineCinema.DataLayer;
 using OnlineCinema.DataLayer.Model;
 using OnlineCinema.Services.Interfaces;
@@ -8,24 +7,26 @@ using OnlineCinema.Shared.ResponseModels;
 
 namespace OnlineCinema.API.Controllers
 {
+
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private CinemaDBContext _dbContext;
         private IUserService _userService;
-        public UserController(CinemaDBContext dbContext, IUserService userService)
+        private CinemaDBContext _dbContext;
+        private IConfiguration _configuration;
+        public UserController(CinemaDBContext dbContext, IUserService userService, IConfiguration configuration)
         {
             _dbContext = dbContext;
             _userService = userService;
-
+            _configuration = configuration;
         }
 
         [Authorize]
         [HttpGet("GetItemsByIds/{Id}")]
-        public async Task<ActionResult<UserResponse>> GetItemsByIds(int Id)
+        public async Task<ActionResult<UserResponse>> Get(int Id)
         {
-            var result = (await _userService.GetUsersAsync(new List<int> { Id })).FirstOrDefault();
+            var result = (await _userService.GetUsersAsync(new List<int> { Id})).FirstOrDefault();
             if (result == null)
             {
                 return BadRequest();
@@ -35,21 +36,54 @@ namespace OnlineCinema.API.Controllers
                 return Ok(result);
             }
         }
-        [HttpPost]
-        public async Task<ActionResult<string>> AddAsync(UserRequest user)
+
+        [HttpGet("getToken")]
+        public async Task<ActionResult<string>> CreationOfTokenAsync(string username, string password)
         {
+            _userService.FindUserAsync(username);
+            var user = new User();
+
+            _userService.CreateHash(password, out byte[] passwordHash);
+            if (passwordHash != user.PasswordHash)
+            {
+                return BadRequest();
+            }
+            if (user.Username != username)
+            {
+                return BadRequest("User not found");
+            }
+
+            if (!_userService.VerifyPasswordHash(password, user.PasswordHash))
+            {
+                return BadRequest("something went wrong");
+            };
+
+            string token = _userService.GenerateToken();
+            return Ok(token);
+
+
+        }
+        [HttpPost]
+        public async Task<ActionResult<string>> AddAsync(UserRequest user, IUserService _userService)
+        {
+            _userService.CreateHash(user.Password, out byte[] passwordHash);
             await _dbContext.Users.AddAsync(new User
             {
-                Login = user.Login,
-                //RoleId = user.,
+                Username = user.Username,
+                Email = user.Email,
+                PasswordHash = passwordHash,
                 DateOfBirth = user.DateOfBirth,
                 MonthOfBirth = user.MonthOfBirth,
                 YearOfBirth = user.YearOfBirth,
                 CreatedDate = user.CreatedDate,
                 LastModifiedDate = user.LastModifiedDate,
-                IsDeleted = user.IsDeleted
+                IsDeleted = user.IsDeleted,
+                RoleId = user.RoleId
+
             });
+
             await _dbContext.SaveChangesAsync();
+
             return Ok();
         }
 
@@ -58,9 +92,6 @@ namespace OnlineCinema.API.Controllers
         {
             return await _userService.GetUsersAsync(Ids);
         }
-
-    }
-
-
+}
 }
 

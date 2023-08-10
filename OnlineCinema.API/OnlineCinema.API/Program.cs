@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using OnlineCinema.API.DI;
 using OnlineCinema.DataLayer;
+using OnlineCinema.DataLayer.Model;
 using OnlineCinema.Shared;
 
 internal class Program
@@ -20,27 +22,50 @@ internal class Program
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "OnlineCinema.API", Version = "v1" });
+
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "JWT Authorization header using the Bearer scheme."
+
+            });
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                          {
+                              Reference = new OpenApiReference
+                              {
+                                  Type = ReferenceType.SecurityScheme,
+                                  Id = "Bearer"
+                              }
+                          },
+                         new string[] {}
+                    }
+                });
+        });
+        
 
         builder.Services.AddAuthorization();
+        builder.Services.AddAuthentication();
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    // вказує, чи валідуватиметься видавець при валідації токена
                     ValidateIssuer = true,
-                    // Рядок, що представляє видавця
                     ValidIssuer = AuthOptions.ISSUER,
-                    // Чи валідуватиметься споживач токена
                     ValidateAudience = true,
-                    // Установка споживача токена
                     ValidAudience = AuthOptions.AUDIENCE,
-                    // чи валідуватиметься час існування
                     ValidateLifetime = true,
-                    // встановлення ключа безпеки
                     IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                    // валідація ключа безпеки
                     ValidateIssuerSigningKey = true,
                 };
             });
@@ -61,6 +86,7 @@ internal class Program
         app.MapControllers();
 
         app.Run();
+
     }
 
 }

@@ -1,26 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentAssertions.Common;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OnlineCinema.DataLayer;
+using OnlineCinema.DataLayer.Model;
+using OnlineCinema.Services.Implementations;
+using OnlineCinema.Services.Interfaces;
 using OnlineCinema.Shared;
+using OnlineCinema.Shared.RequestModels;
+using OnlineCinema.Shared.ResponseModels;
+using System.Collections.Generic;
+using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 
 namespace OnlineCinema.API.Controllers
 {
+
     [ApiController]
     [Route("/auth")]
-    public class Authorization: ControllerBase
+    public class Authorization : ControllerBase
     {
-        private CinemaDBContext _DbContext;
-        public Authorization(CinemaDBContext DbContext) 
+        
+        private readonly CinemaDBContext _DbContext;
+        private readonly IUserService _userService;
+
+        public Authorization(CinemaDBContext DbContext, IUserService userService)
         {
             _DbContext = DbContext;
+            _userService = userService;
         }
+
+
         [HttpPost("/token")]
         public async Task<IActionResult> Token(string username, string password)
         {
+            //_userService.VerifyPasswordHash(password, user)
             var identity = await GetIdentityAsync(username, password);
             if (identity == null)
             {
@@ -28,14 +47,14 @@ namespace OnlineCinema.API.Controllers
             }
 
             var now = DateTime.UtcNow;
-            // создаем JWT-токен
+            
             var jwt = new JwtSecurityToken(
                     issuer: AuthOptions.ISSUER,
                     audience: AuthOptions.AUDIENCE,
                     notBefore: now,
                     claims: identity.Claims,
                     expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.Sha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
             var response = new
@@ -49,12 +68,12 @@ namespace OnlineCinema.API.Controllers
 
         private async Task<ClaimsIdentity> GetIdentityAsync(string username, string password)
         {
-            var person = await _DbContext.Users.FirstOrDefaultAsync(x => x.Login == username && x.Password == password);
+            var person = await _DbContext.Users.FirstOrDefaultAsync(x => x.Username == username);//&& x.PasswordHash == password);
             if (person != null)
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Username),
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role.RoleName)
                 };
                 ClaimsIdentity claimsIdentity =
@@ -66,3 +85,4 @@ namespace OnlineCinema.API.Controllers
         }
     }
 }
+

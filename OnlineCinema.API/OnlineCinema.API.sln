@@ -3,15 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCinema.API", "OnlineCinema.API\OnlineCinema.API.csproj", "{7D29BFAF-B84C-4DFC-B2A8-51E45CDD48DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineCinema.API", "OnlineCinema.API\OnlineCinema.API.csproj", "{7D29BFAF-B84C-4DFC-B2A8-51E45CDD48DD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{64BDFFEE-5C89-418F-88ED-7649A0FEDF56} = {64BDFFEE-5C89-418F-88ED-7649A0FEDF56}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCinema.DataLayer", "OnlineCinema.DataLayer\OnlineCinema.DataLayer.csproj", "{66FAC192-1F18-414C-BFE3-FF3C27CA7051}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineCinema.DataLayer", "OnlineCinema.DataLayer\OnlineCinema.DataLayer.csproj", "{66FAC192-1F18-414C-BFE3-FF3C27CA7051}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCinema.Repositories", "OnlineCinema.Repositories\OnlineCinema.Repositories.csproj", "{74AF6F13-3DC7-41A3-AF87-873B29AF2A75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineCinema.Repositories", "OnlineCinema.Repositories\OnlineCinema.Repositories.csproj", "{74AF6F13-3DC7-41A3-AF87-873B29AF2A75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCinema.Services", "OnlineCinema.Services\OnlineCinema.Services.csproj", "{64BDFFEE-5C89-418F-88ED-7649A0FEDF56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineCinema.Services", "OnlineCinema.Services\OnlineCinema.Services.csproj", "{64BDFFEE-5C89-418F-88ED-7649A0FEDF56}"
+	ProjectSection(ProjectDependencies) = postProject
+		{74AF6F13-3DC7-41A3-AF87-873B29AF2A75} = {74AF6F13-3DC7-41A3-AF87-873B29AF2A75}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineCinema.Shared", "OnlineCinema.Shared\OnlineCinema.Shared.csproj", "{F4714AD5-CA3C-4141-AE38-788412CBAE87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineCinema.Shared", "OnlineCinema.Shared\OnlineCinema.Shared.csproj", "{F4714AD5-CA3C-4141-AE38-788412CBAE87}"
+	ProjectSection(ProjectDependencies) = postProject
+		{66FAC192-1F18-414C-BFE3-FF3C27CA7051} = {66FAC192-1F18-414C-BFE3-FF3C27CA7051}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineCinema.DataLayer;
 using OnlineCinema.DataLayer.Model;
 using OnlineCinema.Services.Interfaces;
@@ -58,7 +59,7 @@ namespace OnlineCinema.API.Controllers
                 return BadRequest("something went wrong");
             };
 
-            string token = _userService.GenerateToken();
+            string token = _userService.GenerateToken(user);
             return Ok(token);
 
 

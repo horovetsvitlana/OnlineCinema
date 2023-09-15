@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OnlineCinema.DataLayer;
@@ -41,9 +42,11 @@ namespace OnlineCinema.Services.Implementations
             }
 
         }
-        public void FindUserAsync(string username)
+        public async Task<User> FindUserAsync(string username)
         {
-            var query = _dbContext.Users.Where(u => username.Contains(u.Username));
+            var query = _dbContext.Users.Where(u => username.ToLower() == u.Username);
+            return await query.FirstOrDefaultAsync();
+
         }
         
         public string GenerateToken(User user)
@@ -78,9 +81,7 @@ namespace OnlineCinema.Services.Implementations
                     Email = user.Email,
                     CreatedDate = user.CreatedDate,
                     LastModifiedDate = user.LastModifiedDate,
-                    DateOfBirth = user.DateOfBirth,
-                    MonthOfBirth = user.MonthOfBirth,
-                    YearOfBirth = user.YearOfBirth,
+                    Birthday = user.Birthday,
                     IsDeleted = user.IsDeleted,
                     RoleId = user.RoleId
                     //Role = user.Role.RoleName

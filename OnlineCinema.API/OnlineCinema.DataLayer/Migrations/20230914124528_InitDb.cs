@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
+using OnlineCinema.DataLayer.Model;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 #nullable disable
 
@@ -16,7 +19,7 @@ namespace OnlineCinema.DataLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    RoleName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    RoleName = table.Column<string>(type: "varchar(20)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,15 +32,12 @@ namespace OnlineCinema.DataLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Username = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Email = table.Column<string>(type: "varchar(100)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    DateOfBirth = table.Column<int>(type: "int", nullable: false),
-                    MonthOfBirth = table.Column<int>(type: "int", nullable: false),
-                    YearOfBirth = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Birthday = table.Column<DateTime>(type: "date", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "date", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "date", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -55,7 +55,9 @@ namespace OnlineCinema.DataLayer.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
                 table: "Users",
-                column: "RoleId");
+            column: "RoleId");
+
+            migrationBuilder.Sql("IF NOT EXISTS (SELECT * FROM Users Where Username = 'Admin') BEGIN Insert into Roles(Id, RoleName) Values(1, 'Admin') Insert into Users(Username, Email, Password, IsDeleted, RoleId) Values('Admin', 'Admin@gmail.com', 'Admin', 1, 1) END");
         }
 
         /// <inheritdoc />
@@ -66,6 +68,8 @@ namespace OnlineCinema.DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Roles");
+
+            migrationBuilder.DropSequence(" Select * from Users Where Username = 'Admin'");
         }
     }
 }

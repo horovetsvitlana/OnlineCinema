@@ -10,7 +10,7 @@ namespace OnlineCinema.DataLayer.Model
         [Required]
         public int Id { get; set; }
         [Required]
-        [MaxLength(20)]
+        [Column(TypeName = "varchar(20)")]
         public string RoleName { get; set; }
         public ICollection<User> Users { get; set; }
     }

@@ -1,21 +1,11 @@
-﻿using FluentAssertions.Common;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OnlineCinema.DataLayer;
-using OnlineCinema.DataLayer.Model;
-using OnlineCinema.Services.Implementations;
 using OnlineCinema.Services.Interfaces;
 using OnlineCinema.Shared;
-using OnlineCinema.Shared.RequestModels;
-using OnlineCinema.Shared.ResponseModels;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
 
 namespace OnlineCinema.API.Controllers

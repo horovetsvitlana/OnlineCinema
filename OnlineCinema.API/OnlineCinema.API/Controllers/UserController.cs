@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineCinema.DataLayer;
 using OnlineCinema.DataLayer.Model;
 using OnlineCinema.Services.Interfaces;
 using OnlineCinema.Shared.RequestModels;
 using OnlineCinema.Shared.ResponseModels;
+using System.Text;
 
 namespace OnlineCinema.API.Controllers
 {
@@ -40,11 +42,11 @@ namespace OnlineCinema.API.Controllers
         [HttpGet("getToken")]
         public async Task<ActionResult<string>> CreationOfTokenAsync(string username, string password)
         {
-            _userService.FindUserAsync(username);
-            var user = new User();
+            var user = await _userService.FindUserAsync(username);
 
             _userService.CreateHash(password, out byte[] passwordHash);
-            if (passwordHash != user.PasswordHash)
+            byte[] passHash = Encoding.ASCII.GetBytes(user.Password);
+            if (passHash != passwordHash)
             {
                 return BadRequest();
             }
@@ -53,12 +55,8 @@ namespace OnlineCinema.API.Controllers
                 return BadRequest("User not found");
             }
 
-            if (!_userService.VerifyPasswordHash(password, user.PasswordHash))
-            {
-                return BadRequest("something went wrong");
-            };
 
-            string token = _userService.GenerateToken();
+            string token = _userService.GenerateToken(user);
             return Ok(token);
 
 
@@ -71,10 +69,7 @@ namespace OnlineCinema.API.Controllers
             {
                 Username = user.Username,
                 Email = user.Email,
-                PasswordHash = passwordHash,
-                DateOfBirth = user.DateOfBirth,
-                MonthOfBirth = user.MonthOfBirth,
-                YearOfBirth = user.YearOfBirth,
+                Birthday = user.Birthday,
                 CreatedDate = user.CreatedDate,
                 LastModifiedDate = user.LastModifiedDate,
                 IsDeleted = user.IsDeleted,

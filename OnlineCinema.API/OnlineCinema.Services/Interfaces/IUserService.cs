@@ -8,7 +8,7 @@ namespace OnlineCinema.Services.Interfaces
 
         void CreateHash(string Password, out byte[] passwordHash);
         bool VerifyPasswordHash(string password, byte[] passwordHash);
-        void FindUserAsync(string username);
+        Task<User> FindUserAsync(string username);
         string GenerateToken(User user);
         Task<List<UserResponse>> GetUsersAsync(List<int> Ids);
     }

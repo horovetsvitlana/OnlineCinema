@@ -15,6 +15,7 @@ namespace OnlineCinema.API.DI
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IFileService, FileService>();
 
             services.AddAutoMapper(conf =>
             {
